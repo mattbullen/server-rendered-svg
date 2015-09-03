@@ -161,5 +161,5 @@ var server = http.createServer(function (req, res) {
         var readStream = fs.createReadStream(filePath);
         readStream.pipe(res);
     }
-}).listen(1337, "127.0.0.1");
+}).listen(process.env.PORT || 5000);
 console.log("Server running at http://127.0.0.1:1337/");
