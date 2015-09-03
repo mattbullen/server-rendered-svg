@@ -1,15 +1,17 @@
-var d3 = require("d3"),
-    http = require("http"),
-    fs = require("fs"),
-    path = require("path"),
-    jsdom = require("jsdom").jsdom;
-    
-var window = jsdom().parentWindow;
-var dd = window.document.createElement("div");
+(function init() {
 
-var server = http.createServer(function (req, res) {
+    var d3 = require("d3"),
+        http = require("http"),
+        fs = require("fs"),
+        path = require("path"),
+        jsdom = require("jsdom").jsdom;
     
-    if (req.url == "/" || req.url == "/index.html") {
+    var window = jsdom().parentWindow;
+    var virtualDiv = window.document.createElement("div");
+
+    var server = http.createServer(function (req, res) {
+    
+        if (req.url == "/" || req.url == "/index.html") {
         
             var width = 540,
                 height = 540,
@@ -28,7 +30,7 @@ var server = http.createServer(function (req, res) {
                 .x(function(d, i) { if (x(i) < 1) { return 1; } return x(i); })
                 .y(y);
 
-            var svg = d3.select(dd).append("svg")
+            var svg = d3.select(virtualDiv).append("svg")
                 .attr("id", "main")
                 .attr("width", 600)
                 .attr("height", 600)
@@ -143,7 +145,7 @@ var server = http.createServer(function (req, res) {
             svg.append("script").html(script);
             
             var filePath = path.join(__dirname, "index.html");
-            fs.writeFile(filePath, '<script src="./d3.min.js"> </script><div style="width: 600px; margin: 0 auto;"><h3 style="width: 100%; margin-top: 5rem; font-family: Arial, sans-serif; font-size: 24px; text-align: center;">Server-rendered interactive D3.js SVG</h3>' + dd.innerHTML + '</div>', function(error) {
+            fs.writeFile(filePath, '<script src="./d3.min.js"> </script><div style="width: 600px; margin: 0 auto;"><h3 style="width: 100%; margin-top: 5rem; margin-bottom: 36px; padding-left: 18px; font-family: Arial, sans-serif; font-size: 24px;">Server-rendered interactive D3.js SVG</h3>' + virtualDiv.innerHTML + '</div>', function(error) {
                 if (!error) {
                     res.writeHead(200, {"Content-Type": "text/html"});           
                     var readStream = fs.createReadStream(filePath);
@@ -154,12 +156,14 @@ var server = http.createServer(function (req, res) {
                 }
             });
             
-    } else {
-        if (req.url === "/favicon.ico") { res.end(); }
-        var filePath = path.join(__dirname, req.url); console.log(req.url, filePath);
-        res.writeHead(200, {});
-        var readStream = fs.createReadStream(filePath);
-        readStream.pipe(res);
-    }
-}).listen(process.env.PORT || 5000);
-console.log("Server running at http://127.0.0.1:1337/");
+        } else {
+            if (req.url === "/favicon.ico") { res.end(); }
+            var filePath = path.join(__dirname, req.url); console.log(req.url, filePath);
+            res.writeHead(200, {});
+            var readStream = fs.createReadStream(filePath);
+            readStream.pipe(res);
+        }
+        
+    }).listen(process.env.PORT || 5000);
+    
+})();
