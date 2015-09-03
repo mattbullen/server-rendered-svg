@@ -7,12 +7,14 @@
         jsdom = require("jsdom").jsdom;
     
     var window = jsdom().parentWindow;
-    var virtualDiv = window.document.createElement("div");
 
     var server = http.createServer(function (req, res) {
     
         if (req.url == "/" || req.url == "/index.html") {
-        
+            
+            var virtualDiv = window.document.createElement("div");
+            virtualDiv.innerHTML = "";
+            
             var width = 540,
                 height = 540,
                 samples = d3.range(21).map(d3.random.normal(100, 50)),
@@ -172,11 +174,12 @@
             });
             */
             res.writeHead(200, {"Content-Type": "text/html"});
-            res.write('<script src="./d3.min.js"> </script>'
-            + "<script>window.onload = function() { document.body.innerHTML ='"
-            + '<div style="width: 600px; margin: 0 auto;"><h3 style="width: 100%; margin-top: 5rem; margin-bottom: 36px; padding-left: 18px; font-family: Arial, sans-serif; font-size: 24px; text-align: center;">Server-rendered interactive D3.js SVG</h3>'
-            + virtualDiv.innerHTML
-            + "</div>'; };</script>");
+            res.write('<script src="./d3.min.js"> </script><div style="width: 600px; margin: 0 auto;"><h3 style="width: 100%; margin-top: 5rem; margin-bottom: 36px; padding-left: 18px; font-family: Arial, sans-serif; font-size: 24px; text-align: center;">Server-rendered interactive D3.js SVG</h3>' + virtualDiv.innerHTML + '</div>');
+            //res.write('<script src="./d3.min.js"> </script>'
+            //+ "<script>window.onload = function() { document.body.innerHTML =" + virtualDiv.innerHTML + "; }</script>");
+            //+ '<div style="width: 600px; margin: 0 auto;"><h3 style="width: 100%; margin-top: 5rem; margin-bottom: 36px; padding-left: 18px; font-family: Arial, sans-serif; //font-size: 24px; text-align: center;">Server-rendered interactive D3.js SVG</h3>'
+            //+ virtualDiv.innerHTML
+            //+ "</div>'; };</script>");
             
             res.end();
             
