@@ -1,0 +1,14 @@
+{
+  "name": "nd3",
+  "version": "0.0.1",
+  "description": "Server-rendered interactive D3.js SVG",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Matthew Bullen",
+  "license": "ISC",
+  "engines": {
+    "node": "0.10.x"
+  }
+}
