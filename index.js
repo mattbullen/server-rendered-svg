@@ -31,15 +31,17 @@
                 .y(y);
 
             var svg = d3.select(virtualDiv).append("svg")
-                .attr("id", "main")
-                .attr("width", 600)
-                .attr("height", 600)
+                .attr({
+                    "id": "main",
+                    "height": 600,
+                    "width": 600
+                })
                 .append("g")
                 .attr({
                     "width": 539,
-                    "height": 539
-                })
-                .attr("transform", "translate(51, 11)");
+                    "height": 539,
+                    "transform": "translate(51, 11)"
+                });
                 
             svg.append("line")
                 .attr({
@@ -70,8 +72,10 @@
                 });    
                 
             svg.append("g")
-                .attr("class", "x axis")
-                .attr("transform", "translate(0, " + height + ")")
+                .attr({
+                    "class": "x axis",
+                    "transform": "translate(0, " + height + ")"
+                })
                 .call(xAxis)
                 .append("text")
                 .attr({
@@ -103,36 +107,46 @@
                 .text("Y Axis Label Goes Here");
 
             svg.selectAll(".axis text")
-                .style("fill", "#333")
-                .style("stroke-width", 0)
-                .style("font-family", "Arial, sans-serif")
-                .style("font-size", 12)
-                .style("font-rendering", "geometricPrecision");
+                .style({
+                    "fill": "#333",
+                    "stroke-width": 0,
+                    "font-family": "Arial, sans-serif",
+                    "font-size": 12,
+                    "font-rendering": "geometricPrecision"
+                });
                 
             svg.selectAll(".axis line")
-                .style("fill", "none")
-                .style("stroke", "#333")
-                .style("stroke-width", 1.0)
-                .style("shape-rendering", "crispEdges");
+                .style({
+                    "fill": "none",
+                    "stroke": "#333",
+                    "stroke-width": 1.0,
+                    "shape-rendering": "crispEdges"
+                });
                 
             svg.selectAll(".domain")
-                .style("fill", "none")
-                .style("stroke", "#333")
-                .style("stroke-width", 1.0)
-                .style("shape-rendering", "crispEdges");
+                .style({
+                    "fill": "none",
+                    "stroke": "#333",
+                    "stroke-width": 1.0,
+                    "shape-rendering": "crispEdges"
+                });
 
             svg.selectAll("path.samples")
                 .data([samples])
                 .enter()
                 .append("path")
-                .attr("id", "line")
-                .attr("class", "samples")
-                .attr("d", line)
-                .style("fill", "none")
-                .style("stroke", "rgb(6, 12, 124)")
-                .style("stroke-width", 2)
-                .style("cursor", "pointer")
-                .style("position", "relative");
+                .attr({
+                    "id": "line",
+                    "class": "samples",
+                    "d": line
+                })
+                .style({
+                    "fill": "none",
+                    "stroke": "rgb(6, 12, 124)",
+                    "stroke-width": 2.0,
+                    "position": "relative",
+                    "cursor": "pointer"
+                });
 
             svg.append("div")
                 .attr("id", "line-tooltip")
@@ -145,7 +159,7 @@
             svg.append("script").html(script);
             
             var filePath = path.join(__dirname, "index.html");
-            fs.writeFile(filePath, '<script src="./d3.min.js"> </script><div style="width: 600px; margin: 0 auto;"><h3 style="width: 100%; margin-top: 5rem; margin-bottom: 36px; padding-left: 18px; font-family: Arial, sans-serif; font-size: 24px;">Server-rendered interactive D3.js SVG</h3>' + virtualDiv.innerHTML + '</div>', function(error) {
+            fs.writeFile(filePath, '<script src="./d3.min.js"> </script><div style="width: 600px; margin: 0 auto;"><h3 style="width: 100%; margin-top: 5rem; margin-bottom: 36px; padding-left: 18px; font-family: Arial, sans-serif; font-size: 24px; text-align: center;">Server-rendered interactive D3.js SVG</h3>' + virtualDiv.innerHTML + '</div>', function(error) {
                 if (!error) {
                     res.writeHead(200, {"Content-Type": "text/html"});           
                     var readStream = fs.createReadStream(filePath);
