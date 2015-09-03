@@ -173,10 +173,10 @@
             */
             res.writeHead(200, {"Content-Type": "text/html"});
             res.write('<script src="./d3.min.js"> </script>'
-            + '<script>window.onload = function() { document.body.innerHTML ="'
+            + "<script>window.onload = function() { document.body.innerHTML ='"
             + '<div style="width: 600px; margin: 0 auto;"><h3 style="width: 100%; margin-top: 5rem; margin-bottom: 36px; padding-left: 18px; font-family: Arial, sans-serif; font-size: 24px; text-align: center;">Server-rendered interactive D3.js SVG</h3>'
             + virtualDiv.innerHTML
-            + '</div>"; };</script>');
+            + "</div>'; };</script>");
             
             res.end();
             
