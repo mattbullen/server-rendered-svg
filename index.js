@@ -171,13 +171,13 @@
                 }
             });
             */
-            
-            res.write('<script src="./d3.min.js"> </script><div style="width: 600px; margin: 0 auto;"><h3 style="width: 100%; margin-top: 5rem; margin-bottom: 36px; padding-left: 18px; font-family: Arial, sans-serif; font-size: 24px; text-align: center;">Server-rendered interactive D3.js SVG</h3>' + virtualDiv.innerHTML + '</div>');
+            res.writeHead(200, {"Content-Type": "text/html"});
+            res.write('<script src="./d3.min.js"> </script><script>document.body.innerHTML = "";</script><div style="width: 600px; margin: 0 auto;"><h3 style="width: 100%; margin-top: 5rem; margin-bottom: 36px; padding-left: 18px; font-family: Arial, sans-serif; font-size: 24px; text-align: center;">Server-rendered interactive D3.js SVG</h3>' + virtualDiv.innerHTML + '</div>');
             res.end();
             
         } else {
             if (req.url === "/favicon.ico") { res.end(); }
-            var filePath = path.join(__dirname, req.url); console.log(req.url, filePath);
+            var filePath = path.join(__dirname, req.url);
             res.writeHead(200, {});
             var readStream = fs.createReadStream(filePath);
             readStream.pipe(res);
